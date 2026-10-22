@@ -12,9 +12,8 @@
 - [5. Клонирование и подготовка виртуальных машин](#5-клонирование-и-подготовка-виртуальных-машин)
 - [6. Настройка LAN Segment](#6-настройка-lan-segment)
 - [7. Сетевые подключения стенда](#7-сетевые-подключения-стенда)
-- [8. Установка необходимого программного обеспечения](#8-установка-необходимого-программного-обеспечения)
-- [9. Запуск скриптов](#9-запуск-скриптов)
-- [10. Проверки и устранение проблем](#10-проверки-и-устранение-проблем)
+- [8. Запуск скриптов](#8-запуск-скриптов)
+- [9. Проверки и устранение проблем](#9-проверки-и-устранение-проблем)
 
 ## 1. Что находится в репозитории
 
@@ -174,6 +173,10 @@ sudo apt update && sudo apt install -y openssh-server ssh chrony ansible ssh rsy
 ```bash
 sudo apt update && sudo apt install -y vlan chrony ssh openssh-server cups-client curl git
 ```
+**Установка скриптов на все виртуальные машины: на всех вм выполните данную команду**
+```bash
+git clone https://github.com/m1st1xx/ebem-demo_2027.git
+```
 
 ## 6. Настройка LAN Segment
 
@@ -257,9 +260,7 @@ sudo apt update && sudo apt install -y vlan chrony ssh openssh-server cups-clien
 Пример:
 
 ```bash
-sudo apt update
-sudo apt install -y git
-git clone https://github.com/m1st1xx/ebem-demo_full.git
+
 cd ebem-demo_2027
 less isp.sh
 chmod +x isp.sh
