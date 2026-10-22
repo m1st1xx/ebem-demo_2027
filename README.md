@@ -212,11 +212,11 @@ git clone https://github.com/m1st1xx/ebem-demo_2027.git
 
 | LAN Segment | Подключённые интерфейсы | Назначение |
 |---|---|---|
-| `LS-HQ-UPLINK` | ISP `ens37`, HQ-RTR `ens33` | Связь HQ с ISP |
-| `LS-BR-UPLINK` | ISP `ens38`, BR-RTR `ens33` | Связь BR с ISP |
-| `LS-HQ-LAN` | HQ-RTR `ens37`, HQ-SRV `ens33`, HQ-CLI `ens33` | Внутренняя сеть HQ |
-| `LS-BR-TRANSIT` | BR-RTR `ens37`, BR-FW `ens33` | Связь маршрутизатора и firewall BR |
-| `LS-BR-LAN` | BR-FW `ens37`, BR-SRV `ens33` | Внутренняя сеть BR |
+| `hq-isp` | ISP `ens37`, HQ-RTR `ens33` | Связь HQ с ISP |
+| `br-isp` | ISP `ens38`, BR-RTR `ens33` | Связь BR с ISP |
+| `hq-net` | HQ-RTR `ens37`, HQ-SRV `ens33`, HQ-CLI `ens33` | Внутренняя сеть HQ |
+| `br-fw` | BR-RTR `ens37`, BR-FW `ens33` | Связь маршрутизатора и firewall BR |
+| `fw-srv` | BR-FW `ens37`, BR-SRV `ens33` | Внутренняя сеть BR |
 
 Для первого адаптера ISP (`ens33`) выберите **NAT**, если стенду нужен доступ в интернет. LAN Segment — это изолированный виртуальный коммутатор: он сам не выдаёт IP-адреса и не обеспечивает выход в интернет.
 
@@ -224,13 +224,13 @@ git clone https://github.com/m1st1xx/ebem-demo_2027.git
 
 | Виртуальная машина | Адаптер 1 | Адаптер 2 | Адаптер 3 |
 |---|---|---|---|
-| ISP | `ens33` — NAT | `ens37` — `LS-HQ-UPLINK` | `ens38` — `LS-BR-UPLINK` |
-| HQ-RTR | `ens33` — `LS-HQ-UPLINK` | `ens37` — `LS-HQ-LAN` | — |
-| HQ-SRV | `ens33` — `LS-HQ-LAN` | — | — |
-| HQ-CLI | `ens33` — `LS-HQ-LAN` | — | — |
-| BR-RTR | `ens33` — `LS-BR-UPLINK` | `ens37` — `LS-BR-TRANSIT` | — |
-| BR-FW | `ens33` — `LS-BR-TRANSIT` | `ens37` — `LS-BR-LAN` | — |
-| BR-SRV | `ens33` — `LS-BR-LAN` | — | — |
+| ISP | `ens33` — NAT | `ens37` — `hq-isp` | `ens38` — `br-isp` |
+| HQ-RTR | `ens33` — `hq-isp` | `ens37` — `hq-net` | — |
+| HQ-SRV | `ens33` — `hq-net` | — | — |
+| HQ-CLI | `ens33` — `hq-net` | — | — |
+| BR-RTR | `ens33` — `br-isp` | `ens37` — `br-fw` | — |
+| BR-FW | `ens33` — `br-fw` | `ens37` — `fw-srv` | — |
+| BR-SRV | `ens33` — `fw-srv` | — | — |
 
 **Важно:** `HQ-RTR` использует VLAN-подинтерфейсы на `ens37`, а `HQ-SRV` — VLAN 100 на `ens33`. Сегмент `LS-HQ-LAN` должен передавать тегированные кадры 802.1Q между виртуальными машинами. Проверьте это на используемой версии VMware. Если VLAN trunk не проходит, потребуется изменить виртуальную топологию или среду виртуализации.
 
